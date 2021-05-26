@@ -15,7 +15,7 @@ foreign key(branch_name) references branch(branch_name) on delete cascade);
 create table borrower(customer_name varchar(20), loan_number int, primary key(customer_name, loan_number),
 foreign key(customer_name) references customer(customer_name) on update cascade, foreign key(loan_number) references loan(loan_number) on delete cascade);
 
--- Insertions
+-- Insertions of values 
 
 insert into branch values("SBI PD NAGAR", "BANGALORE", 200000);
 insert into branch values("SBI RAJAJI NAGAR", "BANGALORE", 500000);
@@ -67,16 +67,16 @@ insert into depositor values("LALLU", 1234504);
 
 select * from depositor;
 
--- Question 1
+-- //***query1**//
 
 select customer_name from depositor d, accounts a where d.accno=a.accno and a.branch_name="SBI VIJAY NAGAR" group by d.customer_name having count(d.customer_name) >= 2;
 
--- Question 2
+-- //***query2***//
 
 select d.customer_name from accounts a, branch b, depositor d where b.branch_name=a.branch_name and a.accno=d.accno and b.branch_city="BANGALORE" 
 group by d.customer_name having count(distinct b.branch_name)=(select count(branch_name) from branch where branch_city="BANGALORE");
 
--- Question 3
+-- //***query3**//
 
 delete from accounts where branch_name in(select branch_name from branch where branch_city="BANGALORE");
 
